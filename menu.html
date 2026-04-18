@@ -255,7 +255,7 @@ document.addEventListener('dragstart', e => e.preventDefault());
 /* ══════════════════════════════
    CONFIG — edit these two values
 ══════════════════════════════ */
-const PAGE_COUNT   = 21;
+const PAGE_COUNT   = 23;
 const PAGES_FOLDER = 'https://raw.githubusercontent.com/Henilshingala/OceanDust/main';
 const IMG_EXT      = 'png';
 
@@ -285,15 +285,15 @@ function onPageError(img, i) {
   onPageLoad();
 }
 
-// Build all img elements (0..PAGE_COUNT)
-for (let i = 0; i <= PAGE_COUNT; i++) {
+// Build all img elements (1..PAGE_COUNT)
+for (let i = 1; i <= PAGE_COUNT; i++) {
   const img = document.createElement('img');
   img.className = 'page-img';
   img.alt       = `Menu page ${i}`;
   img.draggable = false;
 
   // Lazy load all except first 3
-  if (i > 2) img.loading = 'lazy';
+  if (i > 3) img.loading = 'lazy';
 
   img.onload  = onPageLoad;
   img.onerror = () => onPageError(img, i);
