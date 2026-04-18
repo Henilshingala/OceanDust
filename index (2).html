@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Ocean Dust</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500&family=DM+Sans:wght@300;400;600&display=swap" rel="stylesheet" />
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --aqua-light: #e6f7f5;
+    --aqua-mid:   #cceeed;
+    --aqua-deep:  #a8dede;
+    --aqua-accent:#7ec8c8;
+    --white:      #ffffff;
+    --black:      #111111;
+    --gray:       #6b7b7a;
+    --ease:       cubic-bezier(.25,.8,.25,1);
+  }
+
+  html, body {
+    height: 100%;
+    font-family: 'DM Sans', sans-serif;
+    background: var(--aqua-light);
+    overflow-x: hidden;
+  }
+
+  /* ── NOISE TEXTURE OVERLAY ── */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* ── GRADIENT BG ── */
+  .bg-gradient {
+    position: fixed;
+    inset: 0;
+    background: linear-gradient(160deg, var(--aqua-light) 0%, var(--aqua-mid) 55%, var(--aqua-deep) 100%);
+    z-index: -2;
+  }
+
+  /* ── ANIMATED BLOB ── */
+  .blob {
+    position: fixed;
+    border-radius: 50%;
+    filter: blur(70px);
+    opacity: .35;
+    z-index: -1;
+    animation: drift 12s ease-in-out infinite alternate;
+  }
+  .blob-1 { width: 380px; height: 380px; background: #b2e8e8; top: -80px; left: -80px; animation-duration: 14s; }
+  .blob-2 { width: 280px; height: 280px; background: #d4f5f0; bottom: 60px; right: -60px; animation-duration: 10s; animation-delay: -5s; }
+  @keyframes drift {
+    from { transform: translate(0,0) scale(1); }
+    to   { transform: translate(30px, 20px) scale(1.08); }
+  }
+
+  /* ── WAVE TOP ── */
+  .wave-top {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    pointer-events: none;
+    z-index: 1;
+  }
+  .wave-bottom {
+    position: fixed;
+    bottom: 0; left: 0; right: 0;
+    pointer-events: none;
+    z-index: 1;
+  }
+
+  /* ── PAGE WRAPPER ── */
+  .page {
+    position: relative;
+    z-index: 2;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 40px 20px;
+  }
+
+  /* ── CARD ── */
+  .card {
+    width: 100%;
+    max-width: 380px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0;
+
+    opacity: 0;
+    transform: translateY(28px);
+    animation: fadeUp .9s var(--ease) forwards;
+    animation-delay: .1s;
+  }
+  @keyframes fadeUp {
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ── LOGO CIRCLE ── */
+  .logo-wrap {
+    position: relative;
+    width: 120px;
+    height: 120px;
+    margin-bottom: 24px;
+  }
+  .logo-ring {
+    position: absolute;
+    inset: -5px;
+    border-radius: 50%;
+    background: conic-gradient(from 0deg, #a8dede, #e6f7f5, #a8dede);
+    animation: spin 8s linear infinite;
+    opacity: .5;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  .logo-circle {
+    position: relative;
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    background: white;
+    border: 2.5px solid rgba(126,200,200,.4);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 8px 32px rgba(126,200,200,.25), 0 2px 8px rgba(0,0,0,.06);
+    overflow: hidden;
+  }
+  .logo-inner {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    line-height: 1;
+    gap: 1px;
+  }
+  .logo-ocean {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 18px;
+    font-weight: 500;
+    letter-spacing: .15em;
+    color: #2d7a7a;
+    text-transform: uppercase;
+  }
+  .logo-wave-line {
+    width: 52px;
+    height: 6px;
+    opacity: .6;
+  }
+  .logo-dust {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 13px;
+    font-weight: 300;
+    letter-spacing: .3em;
+    color: #5aa8a8;
+    text-transform: uppercase;
+  }
+
+  /* ── HANDLE + TAGLINE ── */
+  .handle {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 17px;
+    font-weight: 600;
+    color: var(--black);
+    letter-spacing: .01em;
+    margin-bottom: 6px;
+  }
+  .tagline {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 15px;
+    font-weight: 300;
+    color: var(--gray);
+    letter-spacing: .08em;
+    margin-bottom: 32px;
+  }
+
+  /* ── SOCIAL ICONS ── */
+  .socials {
+    display: flex;
+    gap: 18px;
+    margin-bottom: 36px;
+    animation: fadeUp .9s var(--ease) forwards;
+    animation-delay: .25s;
+    opacity: 0;
+  }
+  .social-btn {
+    width: 46px; height: 46px;
+    border-radius: 50%;
+    border: 1.5px solid rgba(0,0,0,.12);
+    background: rgba(255,255,255,.55);
+    backdrop-filter: blur(12px);
+    display: flex; align-items: center; justify-content: center;
+    cursor: pointer;
+    transition: transform .3s var(--ease), box-shadow .3s var(--ease), border-color .3s;
+    text-decoration: none;
+  }
+  .social-btn:hover {
+    transform: scale(1.1);
+    box-shadow: 0 6px 24px rgba(126,200,200,.35);
+    border-color: var(--aqua-accent);
+  }
+  .social-btn svg { width: 20px; height: 20px; }
+
+  /* ── ACTION BUTTONS ── */
+  .actions {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    width: 100%;
+    animation: fadeUp .9s var(--ease) forwards;
+    animation-delay: .4s;
+    opacity: 0;
+  }
+  .action-btn {
+    width: 100%;
+    padding: 17px 24px;
+    border-radius: 25px;
+    border: 1.5px solid rgba(255,255,255,.7);
+    background: rgba(255,255,255,.55);
+    backdrop-filter: blur(18px);
+    -webkit-backdrop-filter: blur(18px);
+    box-shadow:
+      0 4px 20px rgba(126,200,200,.18),
+      0 1px 4px rgba(0,0,0,.06),
+      inset 0 1px 0 rgba(255,255,255,.8);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    text-decoration: none;
+    transition: transform .35s var(--ease), box-shadow .35s var(--ease), border-color .35s;
+    position: relative;
+    overflow: hidden;
+  }
+  .action-btn::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(120deg, rgba(255,255,255,.0) 0%, rgba(255,255,255,.18) 100%);
+    opacity: 0;
+    transition: opacity .35s;
+  }
+  .action-btn:hover::before { opacity: 1; }
+  .action-btn:hover {
+    transform: translateY(-4px);
+    box-shadow:
+      0 12px 36px rgba(126,200,200,.30),
+      0 4px 12px rgba(0,0,0,.08),
+      inset 0 1px 0 rgba(255,255,255,.9);
+    border-color: rgba(126,200,200,.5);
+  }
+  .btn-left {
+    display: flex;
+    align-items: center;
+    gap: 13px;
+  }
+  .btn-icon {
+    width: 38px; height: 38px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--aqua-mid), var(--aqua-deep));
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+    box-shadow: 0 2px 8px rgba(126,200,200,.3);
+  }
+  .btn-icon svg { width: 18px; height: 18px; }
+  .btn-text { text-align: left; }
+  .btn-label {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13px;
+    font-weight: 300;
+    color: var(--gray);
+    letter-spacing: .06em;
+    display: block;
+    line-height: 1;
+    margin-bottom: 2px;
+  }
+  .btn-title {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--black);
+    letter-spacing: .04em;
+    display: block;
+    line-height: 1;
+  }
+  .btn-arrow {
+    width: 30px; height: 30px;
+    border-radius: 50%;
+    border: 1.5px solid rgba(0,0,0,.1);
+    display: flex; align-items: center; justify-content: center;
+    transition: transform .3s var(--ease), border-color .3s;
+  }
+  .action-btn:hover .btn-arrow {
+    transform: translateX(3px);
+    border-color: var(--aqua-accent);
+  }
+  .btn-arrow svg { width: 13px; height: 13px; }
+
+  /* ── DIVIDER DOT ── */
+  .dot-row {
+    display: flex; gap: 6px; margin: 28px 0 0;
+    animation: fadeUp .9s var(--ease) forwards;
+    animation-delay: .55s;
+    opacity: 0;
+  }
+  .dot {
+    width: 4px; height: 4px;
+    border-radius: 50%;
+    background: var(--aqua-accent);
+    opacity: .45;
+  }
+  .dot.mid { opacity: .9; background: var(--aqua-accent); }
+
+  @media (max-width: 420px) {
+    .card { max-width: 100%; }
+  }
+</style>
+</head>
+<body>
+
+<!-- BG -->
+<div class="bg-gradient"></div>
+<div class="blob blob-1"></div>
+<div class="blob blob-2"></div>
+
+<!-- WAVE TOP -->
+<svg class="wave-top" viewBox="0 0 1440 90" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+  <path d="M0,40 C240,90 480,0 720,40 C960,80 1200,10 1440,40 L1440,0 L0,0 Z" fill="rgba(255,255,255,0.32)"/>
+  <path d="M0,60 C300,100 600,20 900,55 C1100,78 1280,30 1440,55 L1440,0 L0,0 Z" fill="rgba(255,255,255,0.18)"/>
+</svg>
+
+<!-- WAVE BOTTOM -->
+<svg class="wave-bottom" viewBox="0 0 1440 90" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+  <path d="M0,50 C240,0 480,90 720,50 C960,10 1200,80 1440,50 L1440,90 L0,90 Z" fill="rgba(255,255,255,0.32)"/>
+  <path d="M0,35 C300,-5 600,75 900,35 C1100,10 1280,60 1440,35 L1440,90 L0,90 Z" fill="rgba(255,255,255,0.18)"/>
+</svg>
+
+<!-- PAGE -->
+<div class="page">
+  <div class="card">
+
+    <!-- LOGO -->
+    <div class="logo-wrap">
+      <div class="logo-ring"></div>
+      <div class="logo-circle">
+        <div class="logo-inner">
+          <span class="logo-ocean">Ocean</span>
+          <svg class="logo-wave-line" viewBox="0 0 52 6" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M0,3 C8,0 14,6 22,3 C30,0 36,6 44,3 C47,2 50,3 52,3" stroke="#7ec8c8" stroke-width="1.5" stroke-linecap="round" fill="none"/>
+          </svg>
+          <span class="logo-dust">Dust</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- HANDLE & TAGLINE -->
+    <p class="handle">@ocean_dust</p>
+    <p class="tagline">A Taste of the Tides</p>
+
+    <!-- SOCIALS -->
+    <div class="socials">
+      <!-- Instagram -->
+      <a href="https://instagram.com/ocean_dust" target="_blank" class="social-btn" aria-label="Instagram">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#111" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
+          <circle cx="12" cy="12" r="4"/>
+          <circle cx="17.5" cy="6.5" r="1" fill="#111" stroke="none"/>
+        </svg>
+      </a>
+      <!-- WhatsApp -->
+      <a href="https://wa.me/91XXXXXXXXXX" target="_blank" class="social-btn" aria-label="WhatsApp">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#111" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M21 11.5A9 9 0 1 1 12 3a9 9 0 0 1 9 8.5z"/>
+          <path d="M9 10c0-.6.4-1 1-1h.5c.3 0 .5.2.6.4l.7 1.5c.1.3 0 .6-.2.8l-.4.4c.4.8 1 1.5 1.8 1.9l.4-.5c.2-.2.5-.3.8-.2l1.5.7c.2.1.4.3.4.6V15c0 .6-.4 1-1 1-4 0-6.5-3.1-6.1-6z"/>
+        </svg>
+      </a>
+    </div>
+
+    <!-- ACTION BUTTONS -->
+    <div class="actions">
+      <!-- MENU -->
+      <button class="action-btn" onclick="openMenu()" aria-label="View Menu">
+        <div class="btn-left">
+          <div class="btn-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#2d7a7a" stroke-width="1.8" stroke-linecap="round">
+              <path d="M4 6h16M4 10h16M4 14h10M4 18h7"/>
+            </svg>
+          </div>
+          <div class="btn-text">
+            <span class="btn-label">Explore our</span>
+            <span class="btn-title">MENU</span>
+          </div>
+        </div>
+        <div class="btn-arrow">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#111" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M5 12h14M13 6l6 6-6 6"/>
+          </svg>
+        </div>
+      </button>
+
+      <!-- LOCATION -->
+      <button class="action-btn" onclick="openLocation()" aria-label="Find us on Maps">
+        <div class="btn-left">
+          <div class="btn-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#2d7a7a" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 2C8.1 2 5 5.1 5 9c0 5.3 7 13 7 13s7-7.7 7-13c0-3.9-3.1-7-7-7z"/>
+              <circle cx="12" cy="9" r="2.5"/>
+            </svg>
+          </div>
+          <div class="btn-text">
+            <span class="btn-label">Find us at</span>
+            <span class="btn-title">LOCATION</span>
+          </div>
+        </div>
+        <div class="btn-arrow">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#111" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M5 12h14M13 6l6 6-6 6"/>
+          </svg>
+        </div>
+      </button>
+    </div>
+
+    <!-- DOTS -->
+    <div class="dot-row">
+      <div class="dot"></div>
+      <div class="dot mid"></div>
+      <div class="dot"></div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+  function openMenu() {
+    window.open("menu.pdf", "_blank");
+  }
+
+  function openLocation() {
+    window.open("https://maps.google.com/?q=Ocean+Dust+Cafe", "_blank");
+  }
+</script>
+</body>
+</html>
