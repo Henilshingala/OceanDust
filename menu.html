@@ -64,6 +64,7 @@ body::before{
   flex-shrink:0;
 }
 .topbar-logo svg{width:18px;height:18px;}
+.topbar-logo img{width:100%;height:100%;object-fit:cover;border-radius:50%;display:block;}
 .topbar-name{
   font-size:14px;font-weight:600;color:#2d7a7a;letter-spacing:.06em;
 }
@@ -190,10 +191,7 @@ body::before{
 <div class="topbar">
   <div class="topbar-brand">
     <div class="topbar-logo">
-      <svg viewBox="0 0 24 24" fill="none" stroke="#2d7a7a" stroke-width="1.8" stroke-linecap="round">
-        <path d="M2,12 C5,6 9,6 12,12 C15,18 19,18 22,12"/>
-        <path d="M2,17 C5,11 9,11 12,17 C15,23 19,23 22,17" opacity=".4"/>
-      </svg>
+      <img src="logo.png" alt="Ocean Dust logo"/>
     </div>
     <div>
       <span class="topbar-name">OCEAN DUST</span>
@@ -287,15 +285,15 @@ function onPageError(img, i) {
   onPageLoad();
 }
 
-// Build all img elements
-for (let i = 1; i <= PAGE_COUNT; i++) {
+// Build all img elements (0..PAGE_COUNT)
+for (let i = 0; i <= PAGE_COUNT; i++) {
   const img = document.createElement('img');
   img.className = 'page-img';
   img.alt       = `Menu page ${i}`;
   img.draggable = false;
 
   // Lazy load all except first 3
-  if (i > 3) img.loading = 'lazy';
+  if (i > 2) img.loading = 'lazy';
 
   img.onload  = onPageLoad;
   img.onerror = () => onPageError(img, i);
