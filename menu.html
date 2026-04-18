@@ -257,9 +257,9 @@ document.addEventListener('dragstart', e => e.preventDefault());
 /* ══════════════════════════════
    CONFIG — edit these two values
 ══════════════════════════════ */
-const PAGE_COUNT  = 20;           // ← set to your actual page count
-const PAGES_FOLDER = 'menu-pages'; // ← folder name where your JPGs live
-const IMG_EXT      = 'jpg';        // ← 'jpg' or 'png'
+const PAGE_COUNT   = 20;
+const PAGES_FOLDER = 'https://raw.githubusercontent.com/Henilshingala/OceanDust/main';
+const IMG_EXT      = 'png';
 
 /* ══════════════════════════════
    RENDER PAGES
@@ -282,7 +282,7 @@ function onPageError(img, i) {
   const err = document.createElement('div');
   err.style.cssText = `width:100%;padding:40px;text-align:center;color:#2d7a7a;
     font-size:13px;opacity:.6;background:rgba(255,255,255,.3);`;
-  err.textContent = `Page ${i} image not found — add ${PAGES_FOLDER}/page${i}.${IMG_EXT}`;
+  err.textContent = `Page ${i} — image not found (${PAGES_FOLDER}/${i}.${IMG_EXT})`;
   viewer.appendChild(err);
   onPageLoad();
 }
@@ -301,7 +301,7 @@ for (let i = 1; i <= PAGE_COUNT; i++) {
   img.onerror = () => onPageError(img, i);
 
   // Set src last (triggers load)
-  img.src = `${PAGES_FOLDER}/page${i}.${IMG_EXT}`;
+  img.src = `${PAGES_FOLDER}/${i}.${IMG_EXT}`;
 
   viewer.appendChild(img);
 }
