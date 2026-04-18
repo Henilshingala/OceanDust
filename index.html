@@ -6,12 +6,8 @@
 <meta name="theme-color" content="#cceeed"/>
 <title>Ocean Dust</title>
 
-<!-- Preconnect for speed -->
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
-<link rel="preconnect" href="https://cdnjs.cloudflare.com"/>
-
-<!-- Only weights we actually use -->
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;500&family=DM+Sans:wght@300;600&display=swap" rel="stylesheet"/>
 
 <style>
@@ -25,7 +21,6 @@
 
 html,body{height:100%;font-family:'DM Sans',sans-serif;background:var(--aq1);overflow-x:hidden}
 
-/* noise grain */
 body::before{content:'';position:fixed;inset:0;
   background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
   pointer-events:none;z-index:0}
@@ -46,7 +41,6 @@ body::before{content:'';position:fixed;inset:0;
   opacity:0;transform:translateY(26px);animation:up .85s var(--ease) .08s forwards}
 @keyframes up{to{opacity:1;transform:translateY(0)}}
 
-/* logo */
 .lw{position:relative;width:120px;height:120px;margin-bottom:22px}
 .lr{position:absolute;inset:-5px;border-radius:50%;
   background:conic-gradient(from 0deg,#a8dede,#e6f7f5,#a8dede);
@@ -63,7 +57,6 @@ body::before{content:'';position:fixed;inset:0;
 .handle{font-size:16px;font-weight:600;color:var(--blk);letter-spacing:.01em;margin-bottom:5px}
 .tag{font-family:'Cormorant Garamond',serif;font-size:15px;font-weight:300;color:var(--gry);letter-spacing:.08em;margin-bottom:30px}
 
-/* socials */
 .soc{display:flex;gap:16px;margin-bottom:34px;opacity:0;animation:up .85s var(--ease) .22s forwards}
 .sb{width:44px;height:44px;border-radius:50%;border:1.5px solid rgba(0,0,0,.11);
   background:rgba(255,255,255,.52);backdrop-filter:blur(12px);
@@ -72,14 +65,13 @@ body::before{content:'';position:fixed;inset:0;
 .sb:hover{transform:scale(1.1);box-shadow:0 6px 22px rgba(126,200,200,.32);border-color:var(--aqA)}
 .sb svg{width:20px;height:20px}
 
-/* action buttons */
 .acts{display:flex;flex-direction:column;gap:13px;width:100%;opacity:0;animation:up .85s var(--ease) .36s forwards}
 .ab{width:100%;padding:16px 22px;border-radius:25px;border:1.5px solid rgba(255,255,255,.68);
   background:rgba(255,255,255,.52);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);
   box-shadow:0 4px 18px rgba(126,200,200,.16),0 1px 3px rgba(0,0,0,.05),inset 0 1px 0 rgba(255,255,255,.78);
   cursor:pointer;display:flex;align-items:center;justify-content:space-between;
   transition:transform .32s var(--ease),box-shadow .32s var(--ease),border-color .32s;
-  position:relative;overflow:hidden}
+  position:relative;overflow:hidden;text-decoration:none}
 .ab::before{content:'';position:absolute;inset:0;
   background:linear-gradient(120deg,rgba(255,255,255,0),rgba(255,255,255,.16));
   opacity:0;transition:opacity .32s}
@@ -103,84 +95,7 @@ body::before{content:'';position:fixed;inset:0;
 .dot{width:4px;height:4px;border-radius:50%;background:var(--aqA);opacity:.4}
 .dot.m{opacity:.88}
 
-/* ══════════════════════════════════════
-   SECURE PDF OVERLAY
-══════════════════════════════════════ */
-.pdf-ov{
-  display:none;position:fixed;inset:0;z-index:9999;
-  background:rgba(8,25,25,.85);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);
-  flex-direction:column;align-items:center
-}
-.pdf-ov.open{display:flex}
-
-.pdf-bar{
-  width:100%;max-width:880px;padding:11px 16px;
-  display:flex;align-items:center;justify-content:space-between;
-  background:rgba(255,255,255,.07);border-bottom:1px solid rgba(255,255,255,.08);
-  flex-shrink:0
-}
-.pdf-ttl{color:#fff;font-size:13px;font-weight:600;letter-spacing:.08em;opacity:.88}
-.pdf-x{background:rgba(255,255,255,.1);border:none;border-radius:50%;
-  width:34px;height:34px;cursor:pointer;color:#fff;font-size:17px;line-height:1;
-  display:flex;align-items:center;justify-content:center;transition:background .2s}
-.pdf-x:hover{background:rgba(255,255,255,.2)}
-
-/* scrollable canvas area */
-.pdf-scroll{
-  flex:1;overflow-y:auto;overflow-x:hidden;
-  width:100%;display:flex;flex-direction:column;align-items:center;
-  gap:10px;padding:14px 10px 32px;
-  scrollbar-width:thin;scrollbar-color:rgba(255,255,255,.15) transparent
-}
-.pdf-scroll::-webkit-scrollbar{width:4px}
-.pdf-scroll::-webkit-scrollbar-thumb{background:rgba(255,255,255,.15);border-radius:4px}
-
-/* each page canvas */
-.pdf-page{
-  display:block;width:100%;max-width:820px;
-  border-radius:3px;box-shadow:0 6px 28px rgba(0,0,0,.55);
-  /* ── SECURITY: no interaction, no text selection ── */
-  user-select:none;-webkit-user-select:none;
-  pointer-events:none;
-  -webkit-touch-callout:none
-}
-
-/* watermark — CSS only, renders in screenshots */
-.pdf-scroll{position:relative}
-.pdf-wm{
-  position:fixed;top:50%;left:50%;
-  transform:translate(-50%,-50%) rotate(-32deg);
-  font-family:'DM Sans',sans-serif;
-  font-size:clamp(10px,2.5vw,16px);
-  font-weight:700;letter-spacing:.25em;
-  color:rgba(255,255,255,.055);
-  white-space:nowrap;pointer-events:none;
-  z-index:10002;width:200%;text-align:center;line-height:3.2;
-  /* repeat watermark as tiled rows */
-  background:repeating-linear-gradient(
-    -32deg,
-    transparent,
-    transparent 60px,
-    rgba(255,255,255,.018) 60px,
-    rgba(255,255,255,.018) 61px
-  )
-}
-
-/* loader */
-.pdf-load{
-  position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);
-  display:flex;flex-direction:column;align-items:center;gap:12px;color:#fff
-}
-.spin{width:36px;height:36px;border-radius:50%;
-  border:3px solid rgba(255,255,255,.12);border-top-color:var(--aqA);
-  animation:spin .7s linear infinite}
-.pdf-load p{font-size:12px;opacity:.65;letter-spacing:.05em}
-
-/* ── PRINT BLOCK — nuclear option ── */
-@media print{
-  html,body,*{display:none!important;visibility:hidden!important}
-}
-
+@media print{*{display:none!important}}
 @media(max-width:420px){.card{max-width:100%}}
 </style>
 </head>
@@ -190,7 +105,6 @@ body::before{content:'';position:fixed;inset:0;
 <div class="blob b1"></div>
 <div class="blob b2"></div>
 
-<!-- waves -->
 <svg class="wt" viewBox="0 0 1440 90" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
   <path d="M0,40 C240,90 480,0 720,40 C960,80 1200,10 1440,40 L1440,0 L0,0Z" fill="rgba(255,255,255,.3)"/>
   <path d="M0,60 C300,100 600,20 900,55 C1100,78 1280,30 1440,55 L1440,0 L0,0Z" fill="rgba(255,255,255,.16)"/>
@@ -200,7 +114,6 @@ body::before{content:'';position:fixed;inset:0;
   <path d="M0,35 C300,-5 600,75 900,35 C1100,10 1280,60 1440,35 L1440,90 L0,90Z" fill="rgba(255,255,255,.16)"/>
 </svg>
 
-<!-- ── MAIN PAGE ── -->
 <div class="page">
   <div class="card">
 
@@ -237,7 +150,8 @@ body::before{content:'';position:fixed;inset:0;
     </div>
 
     <div class="acts">
-      <button class="ab" onclick="openMenu()" aria-label="View Menu">
+      <!-- MENU → opens menu.html (pure webpage, zero PDF controls) -->
+      <a class="ab" href="menu.html" aria-label="View Menu">
         <div class="bl">
           <div class="bi">
             <svg viewBox="0 0 24 24" fill="none" stroke="#2d7a7a" stroke-width="1.8" stroke-linecap="round">
@@ -254,9 +168,9 @@ body::before{content:'';position:fixed;inset:0;
             <path d="M5 12h14M13 6l6 6-6 6"/>
           </svg>
         </div>
-      </button>
+      </a>
 
-      <button class="ab" onclick="openLocation()" aria-label="Find us">
+      <a class="ab" href="https://maps.app.goo.gl/zYh87qgjDRanooy16" target="_blank" rel="noopener noreferrer" aria-label="Find us">
         <div class="bl">
           <div class="bi">
             <svg viewBox="0 0 24 24" fill="none" stroke="#2d7a7a" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
@@ -274,7 +188,7 @@ body::before{content:'';position:fixed;inset:0;
             <path d="M5 12h14M13 6l6 6-6 6"/>
           </svg>
         </div>
-      </button>
+      </a>
     </div>
 
     <div class="dots">
@@ -283,145 +197,5 @@ body::before{content:'';position:fixed;inset:0;
   </div>
 </div>
 
-<!-- ── SECURE PDF OVERLAY ── -->
-<div class="pdf-ov" id="pdfOv" role="dialog" aria-modal="true" aria-label="Menu Viewer">
-  <div class="pdf-bar">
-    <span class="pdf-ttl">☕ &nbsp;OCEAN DUST — MENU</span>
-    <button class="pdf-x" onclick="closeMenu()" aria-label="Close menu">✕</button>
-  </div>
-
-  <!-- watermark layer — always on top of canvases -->
-  <div class="pdf-wm" aria-hidden="true">
-    OCEAN DUST &nbsp;·&nbsp; FOR VIEWING ONLY &nbsp;·&nbsp; OCEAN DUST &nbsp;·&nbsp; FOR VIEWING ONLY &nbsp;·&nbsp; OCEAN DUST &nbsp;·&nbsp; FOR VIEWING ONLY
-  </div>
-
-  <div class="pdf-scroll" id="pdfScroll">
-    <div class="pdf-load" id="pdfLoad">
-      <div class="spin"></div>
-      <p>Loading menu…</p>
-    </div>
-  </div>
-</div>
-
-<script>
-/* ── CONFIG ── */
-const PDF_URL = 'menu.pdf'; // ← keep menu.pdf in same folder as index.html
-
-/* ══════════════════════════════
-   SECURITY LAYER
-══════════════════════════════ */
-// Block right-click everywhere
-document.addEventListener('contextmenu', e => e.preventDefault());
-
-// Block keyboard shortcuts: Ctrl+S, Ctrl+P, Ctrl+U, F12, Ctrl+Shift+I/J/C
-document.addEventListener('keydown', e => {
-  const ctrl = e.ctrlKey || e.metaKey;
-  const key  = e.key.toLowerCase();
-  if (
-    (ctrl && ['s','p','u'].includes(key)) ||
-    (ctrl && e.shiftKey && ['i','j','c'].includes(key)) ||
-    e.key === 'F12' || e.key === 'PrintScreen'
-  ) {
-    e.preventDefault();
-    e.stopImmediatePropagation();
-  }
-});
-
-// Blur page if user switches away (reduces screen-record risk slightly)
-document.addEventListener('visibilitychange', () => {
-  if (document.hidden && document.getElementById('pdfOv').classList.contains('open')) {
-    document.getElementById('pdfScroll').style.filter = 'blur(12px)';
-  } else {
-    document.getElementById('pdfScroll').style.filter = '';
-  }
-});
-
-/* ══════════════════════════════
-   PDF VIEWER
-══════════════════════════════ */
-let pdfReady = false;
-let pdfDoc   = null;
-
-/* Lazy-load PDF.js only when user taps MENU */
-function loadPdfJs(cb) {
-  if (pdfReady) { cb(); return; }
-  const s = document.createElement('script');
-  s.src = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js';
-  s.onload = () => {
-    pdfjsLib.GlobalWorkerOptions.workerSrc =
-      'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
-    pdfReady = true;
-    cb();
-  };
-  document.head.appendChild(s);
-}
-
-async function renderAllPages(url) {
-  const scroll = document.getElementById('pdfScroll');
-  const loader = document.getElementById('pdfLoad');
-
-  try {
-    pdfDoc = await pdfjsLib.getDocument(url).promise;
-  } catch(err) {
-    loader.innerHTML = '<p style="color:#f88;font-size:13px">Could not load menu.pdf<br>Make sure the file is in the same folder.</p>';
-    return;
-  }
-
-  loader.style.display = 'none';
-
-  const dpr  = Math.min(window.devicePixelRatio || 1, 2); // cap at 2x for perf
-  const maxW = Math.min(window.innerWidth - 20, 820);
-
-  // Render pages sequentially so first page appears fast
-  for (let i = 1; i <= pdfDoc.numPages; i++) {
-    const page = await pdfDoc.getPage(i);
-    const vp0  = page.getViewport({ scale: 1 });
-    const scale = maxW / vp0.width;
-    const vp    = page.getViewport({ scale });
-
-    const canvas       = document.createElement('canvas');
-    canvas.className   = 'pdf-page';
-    canvas.width       = Math.floor(vp.width  * dpr);
-    canvas.height      = Math.floor(vp.height * dpr);
-    canvas.style.width  = vp.width  + 'px';
-    canvas.style.height = vp.height + 'px';
-    scroll.appendChild(canvas);
-
-    const ctx = canvas.getContext('2d');
-    ctx.scale(dpr, dpr);
-    await page.render({ canvasContext: ctx, viewport: vp }).promise;
-  }
-}
-
-function openMenu() {
-  const ov = document.getElementById('pdfOv');
-  ov.classList.add('open');
-  document.body.style.overflow = 'hidden';
-
-  if (!pdfDoc) {
-    loadPdfJs(() => renderAllPages(PDF_URL));
-  }
-}
-
-function closeMenu() {
-  document.getElementById('pdfOv').classList.remove('open');
-  document.body.style.overflow = '';
-}
-
-// Tap outside PDF bar area → close
-document.getElementById('pdfOv').addEventListener('click', e => {
-  if (e.target === e.currentTarget) closeMenu();
-});
-
-// Escape key → close
-document.addEventListener('keydown', e => {
-  if (e.key === 'Escape') closeMenu();
-});
-
-/* ── LOCATION ── */
-function openLocation() {
-  window.open('https://maps.app.goo.gl/zYh87qgjDRanooy16', '_blank', 'noopener,noreferrer');
-}
-</script>
 </body>
 </html>
